@@ -8,7 +8,7 @@
         $this->gatekeeper(); // Logged-in users only
         $t = \Idno\Core\site()->template();
         $body = $t->draw('account/pinboard');
-        $t->__(['title' => 'Pinboard DEV', 'body' => $body])->drawPage();
+        $t->__(['title' => 'Pinboard', 'body' => $body])->drawPage();
       }
 
       function postContent() {

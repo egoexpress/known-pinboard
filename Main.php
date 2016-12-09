@@ -14,7 +14,22 @@
         }, ['bookmark']);
 
         \Idno\Core\site()->addEventHook('post/bookmark/pinboard', function (\Idno\Core\Event $event) {
-          // TODO: add code here
+          $object = $event->data()['object'];
+          $pinboardObj = $this->connect();
+          $url = $object->body;
+          // check if we can use the real title here
+          $title = $object->getTitleFromURL($url);
+          $tags = str_replace('#','',implode(',', $object->getTags()));
+          $desc = str_replace($object->getTags(),'',$object->description);
+          $optionalData = array('tags'=>$tags,'desc'=>$desc);
+          $access = $object->getAccess();
+
+          $response = json_decode($pinboardObj->createBookmark($url, $title, $optionalData), true);
+          if ($response) {
+            $username = explode(':', \Idno\Core\site()->config()->pinboard['apiKey'])[0];
+            $object->setPosseLink('pinboard', 'https://www.pinboard.in/u:' . $username);
+            $object->save();
+          }
         });
       }
 
