@@ -8,7 +8,7 @@
         $this->gatekeeper(); // Logged-in users only
         $t = \Idno\Core\site()->template();
         $body = $t->draw('account/pinboard');
-        $t->__(['title' => 'Pinboard', 'body' => $body])->drawPage();
+        $t->__(['title' => 'Pinboard DEV', 'body' => $body])->drawPage();
       }
 
       function postContent() {
@@ -18,7 +18,7 @@
           'apiKey' => $apiKey
         ];
         \Idno\Core\site()->config()->save();
-        \Idno\Core\site()->session()->addMessage('Your Pinboard credentials were saved.');
+        \Idno\Core\site()->session()->addMessage('Your Pinboard API token was saved.');
         $this->forward('/account/pinboard/');
       }
     }

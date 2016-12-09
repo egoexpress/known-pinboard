@@ -10,10 +10,12 @@
 
       function registerEventHooks() {
         \Idno\Core\site()->syndication()->registerService('pinboard', function () {
-                    return true;
+          return true;
         }, ['bookmark']);
 
-        \Idno\Core\site()->addEventHook('post/bookmark/pinboard', function (\Idno\Core\Event $event) {});
+        \Idno\Core\site()->addEventHook('post/bookmark/pinboard', function (\Idno\Core\Event $event) {
+          // TODO: add code here
+        });
       }
 
       function connect(){
