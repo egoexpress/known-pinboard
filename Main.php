@@ -13,10 +13,12 @@
           return true;
         }, ['bookmark']);
 
+        // event hook for posting bookmark to Pinboard
         \Idno\Core\site()->addEventHook('post/bookmark/pinboard', function (\Idno\Core\Event $event) {
           $object = $event->data()['object'];
           $pinboardObj = $this->connect();
           $url = $object->body;
+
           // check if we can use the real title here
           $title = $object->getTitleFromURL($url);
           $tags = str_replace('#','',implode(',', $object->getTags()));

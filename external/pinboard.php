@@ -18,7 +18,7 @@ class Pinboard {
   }
 
   public function createBookmark($url, $description, array $optionalData) {
-    $this->paramsValidate($url, $title);
+    $this->paramsValidate($url, $description);
     $requestArray = array('url' => $url, 'description' => $description,);
 
     $bookmarkSaveParameters = array('extended', 'tags');
@@ -46,31 +46,17 @@ class Pinboard {
     return true;
   }
 
-  protected function httpRequest($url, $params = null, $request = 'GET', $rPause = 0) {
-
-    if (($rPause !== 0) && (is_numeric($rPause))) {
-      sleep($rPause); // to avoid being banned (just in case of many requests)
-    }
-    $ch = curl_init($url);
+  protected function httpRequest($url, $params = null, $request = 'GET') {
+    // URL-encode parameters and add to request URL
+    $urlParams = $this->preparePostFields($params);
+    $fullURL = $url . '&' . $urlParams;
+    $ch = curl_init($fullURL);
 
     curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-    //curl_setopt($ch, CURLOPT_TIMEOUT, $this->options['timeOut']);
-    //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->options['timeOut']);
-
-    if ($this->options['useSSL'] === true) {
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    }
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
-
-    if ((!is_null($params)) && (is_array($params))) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $this->preparePostFields($params));
-    }
-
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-    curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
 
     $data = curl_exec($ch);
     $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -82,7 +68,15 @@ class Pinboard {
       }
       throw new PinboardException($data, $httpStatusCode);
     }
-
     return $data;
+  }
+
+  protected function preparePostFields($array) {
+    $params = array();
+    foreach ($array as $key => $value) {
+      $ret = mb_convert_encoding($value, 'UTF-8', mb_detect_encoding($value));
+      $params[] = urlencode($key) . '=' . urlencode($ret);
+    }
+    return implode('&', $params);
   }
 }
