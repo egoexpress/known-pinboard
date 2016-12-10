@@ -1,6 +1,6 @@
 # known-pinboard
 
-Post bookmarks from [Known](http://withknown.com) to [Pinboard]((https://pinboard.in), IndieWeb style.
+Post bookmarks from [Known](http://withknown.com) to [Pinboard](https://pinboard.in), IndieWeb style.
 
 This plugin adds a syndication option to send your bookmarks to the fabolous Pinboard social bookmarking service after posting them on your own Known site. It uses the Pinboard API (using TLS) for this.
 
