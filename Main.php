@@ -23,7 +23,8 @@
           $title = $object->getTitleFromURL($url);
           $tags = str_replace('#','',implode(',', $object->getTags()));
           $desc = str_replace($object->getTags(),'',$object->description);
-          $optionalData = array('tags'=>$tags,'desc'=>$desc);
+          $desc = strip_tags($desc);
+          $optionalData = array('tags'=>$tags,'extended'=>$desc);
           $access = $object->getAccess();
 
           $response = json_decode($pinboardObj->createBookmark($url, $title, $optionalData), true);
