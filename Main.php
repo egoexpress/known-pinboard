@@ -20,7 +20,7 @@
           $url = $object->body;
 
           // check if we can use the real title here
-          $title = $object->getTitleFromURL($url);
+          $title = $object->getTitle();
           $tags = str_replace('#','',implode(',', $object->getTags()));
           $desc = str_replace($object->getTags(),'',$object->description);
           $desc = strip_tags($desc);
