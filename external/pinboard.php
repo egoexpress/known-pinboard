@@ -33,7 +33,6 @@ class Pinboard {
         } else {
           $requestArray[$key]= $option;
         }
-        $requestArray[$key]= substr($requestArray[$key], 0, 250);
       }
     }
     return $this->httpRequest($this->apiUrl . 'posts/add' . '?auth_token=' . $this->apiKey, $requestArray);
