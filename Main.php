@@ -23,7 +23,7 @@
           $title = $object->getTitle();
           $tags = str_replace('#','',implode(',', $object->getTags()));
           $desc = str_replace($object->getTags(),'',$object->description);
-          $desc = strip_tags($desc);
+          $desc = html_entity_decode(strip_tags($desc));
           $optionalData = array('tags'=>$tags,'extended'=>$desc);
           $access = $object->getAccess();
 
