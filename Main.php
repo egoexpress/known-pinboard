@@ -4,7 +4,7 @@
     class Main extends \Idno\Common\Plugin {
 
       function registerPages() {
-        \Idno\Core\site()->addPageHandler('account/pinboard/?','\IdnoPlugins\Pinboard\Pages\Account');
+        \Idno\Core\Idno::site()->routes()->addRoute('account/pinboard/?','\IdnoPlugins\Pinboard\Pages\Account');
         \Idno\Core\site()->template()->extendTemplate('account/menu/items','account/pinboard/menu');
       }
 
@@ -14,7 +14,7 @@
         }, ['bookmark']);
 
         // event hook for posting bookmark to Pinboard
-        \Idno\Core\site()->addEventHook('post/bookmark/pinboard', function (\Idno\Core\Event $event) {
+        \Idno\Core\Idno::site()->events()->addListener('post/bookmark/pinboard', function (\Idno\Core\Event $event) {
           $object = $event->data()['object'];
           $pinboardObj = $this->connect();
           $url = $object->body;
