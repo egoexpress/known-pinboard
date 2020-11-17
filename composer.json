@@ -2,7 +2,7 @@
   "name": "egoexpress/known-pinboard",
   "type": "known-plugin",
   "description": "Post bookmarks from a Known instance to pinboard.in",
-  "version": "0.5",
+  "version": "0.7",
   "homepage": "https://github.com/egoexpress/known-shortprofile",
   "keywords": [
     "known",
